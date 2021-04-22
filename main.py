@@ -1,24 +1,46 @@
 import sys
 import logging
+def add(a, b, *args):
+    return a + b + sum(args)
 
-def kalkulator():
-    logging.basicConfig(level=logging.INFO)
-    rodzaj_działania = int(input("Podaj działanie, posługując się odpowiednią liczbą: 1 Dodawanie, 2 Odejmowanie, 3 Mnożenie, 4 Dzielenie: " ))
-    skladnik_1 = int(input("Podaj pierwszą liczbę "))
-    skladnik_2 = int(input("Podaj druga liczbe "))
-    if rodzaj_działania == 1:
-        wynik = skladnik_2 + skladnik_1
-        logging.info("Dodaję %s i %s" % (skladnik_1, skladnik_2))
-    elif rodzaj_działania == 2:
-        wynik = skladnik_2 - skladnik_1
-        logging.info("Odejmuję %s i %s" % (skladnik_1, skladnik_2))
-    elif rodzaj_działania == 3:
-        wynik = skladnik_2 * skladnik_1
-        logging.info("Mnożę %s i %s" % (skladnik_1, skladnik_2))
-    elif rodzaj_działania == 4:
-        wynik = skladnik_2 / skladnik_1
-        logging.info("Dzielę %s i %s" % (skladnik_1, skladnik_2))
-    else:
-        exit(1)
-    logging.info("Oto wynik działania %s" % (wynik))
-kalkulator()
+def sub(a, b, *args):
+    return a - b - sum(args)
+
+def div(a, b, *args):
+    z = 1
+    for i in args:
+        z = i*z
+    return a/b/z
+
+def mlt(a, b, *args):
+    z = 1
+    for i in args:
+        z = i * z
+    return a * b * z
+
+
+operations = {
+    '+': add,
+    '-': sub,
+    '/': div,
+    '*': mlt
+}
+
+def get_data():
+    operation = input("Podaj jakie działanie wykonać +-/*: ")
+    a = input('Podaj pierwszą liczbę do działaia: ')
+    b = input('Podaj drugą liczbę do działania: ')
+    args = []
+    while True:
+        x = input('Podaj kolejną liczbę (jeśli koniec naciśnij k): ')
+        if x == "k":
+            break
+        args.append(int(x))
+
+    return operation, int(a), int(b), args
+
+operation, a, b, args = get_data()
+
+print(operations[operation](a, b, *args))
+
+
